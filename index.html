@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+
+    <!-- Link to your CSS file -->
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <!-- You can also include any other meta tags, styles, or scripts here -->
+</head>
+<body>
+    <div class="main">
+        <div class="calculator">
+            <div class="header">
+                <div class="switchBox">
+                    <input type="checkbox" name="" id="Switch" class="switch" value="switch">
+                    <div class="box"></div>
+                </div>
+            </div>
+            <div class="input">
+                <input type="text" name="" id="display" disabled>
+                <input type="button" value="C" id="clear-button" class="cancel_btn">
+            </div>
+            <div class="row">
+                <input type="button" value="7" class="numeric">
+                <input type="button" value="8" class="numeric">
+                <input type="button" value="9" class="numeric">
+                <input type="button" value="+" class="numeric">
+            </div>
+             <div class="row">
+                <input type="button" value="4" class="numeric">
+                <input type="button" value="5" class="numeric">
+                <input type="button" value="6" class="numeric">
+                <input type="button" value="-" class="numeric">
+            </div>
+            <div class="row">
+                <input type="button" value="1" class="numeric">
+                <input type="button" value="2" class="numeric">
+                <input type="button" value="3" class="numeric">
+                <input type="button" value="*" class="numeric">
+            </div>
+            <div class="row">
+                <input style="border-radius: 0 0 0 18px;" type="button" value="." class="numeric">
+                <input type="button" value="0" class="numeric">
+                <input style="background: #542e71; color: white;" type="button" value="=" class="numeric">
+                <input style="border-radius:  0 0 18px 0 ; "type="button" value="/" class="numeric">
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to your JavaScript file -->
+    <script>
+        const switchbtn = document.getElementById("Switch");
+        const display = document.getElementById("display");
+        const numericButtons = document.querySelectorAll(".numeric");
+        const clearButton = document.getElementById("clear-button");
+        let value = "";
+
+        // Function to toggle the theme
+        function toggleTheme() {
+            if (switchbtn.checked) {
+                document.body.setAttribute("data-theme", "dark");
+            } else {
+                document.body.removeAttribute("data-theme");
+            }
+        }
+
+        // Attach the toggleTheme function to the switch's input event
+        switchbtn.addEventListener("change", toggleTheme);
+
+        numericButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (event.target.value === "=") {
+                    if (value.length !== 0) {
+                        let newval = eval(value);
+                        value = newval;
+                        display.value = value;
+                    }
+                } else if (event.target.value === 'C') {
+                    value = "";
+                    display.value = value;
+                } else {
+                    value += event.target.value;
+                    display.value = value;
+                }
+                if (!event.target.classList.contains("switch")) {
+                    event.target.classList.add("active");
+                    setTimeout(() => {
+                        event.target.classList.remove('active');
+                    }, 400);
+                }
+            });
+        });
+
+        clearButton.addEventListener("click", () => {
+            value = "";
+            display.value = value;
+        });
+    </script>
+</body>
+</html>
